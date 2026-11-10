@@ -54,4 +54,24 @@ async function setUserActive(userId, isActive) {
         .query("UPDATE dbo.users SET isActive = @isActive WHERE userId = @userId");
 }
 
-module.exports = { listUsers, getUserById, updateUser, setUserActive };
+async function deleteUser(userId, actorId) {
+    const { exigir, idValido } = require('./validacionComercial');
+    exigir(idValido(userId), 'Usuario no válido.');
+    exigir(userId !== actorId, 'No puedes eliminar tu propia cuenta.');
+    const pool = await getConnection();
+    let resultado;
+    try {
+        resultado = await pool.request().input('userId', sql.Int, userId)
+            .query('DELETE FROM dbo.users OUTPUT DELETED.userId WHERE userId = @userId');
+    } catch (error) {
+        const errores = [error, ...(error.precedingErrors || [])];
+        if (errores.some(e => e.number === 547 || e.originalError?.info?.number === 547 || e.originalError?.code === 547)) {
+            exigir(false, 'Este usuario tiene operaciones registradas y no se puede eliminar. Puedes desactivarlo para conservar su historial.', 409);
+        }
+        throw error;
+    }
+    exigir(resultado.recordset.length, 'Usuario no encontrado.', 404);
+    return { mensaje: 'Usuario eliminado.' };
+}
+
+module.exports = { listUsers, getUserById, updateUser, setUserActive, deleteUser };

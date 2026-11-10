@@ -13,6 +13,7 @@ function responder(operacion, status=200) {
 const admin = requireRole(ADMIN), venta = requireRole(ADMIN,EMPLEADO), producir = requireRole(ADMIN,PRODUCCION);
 const propietario = req => req.session.user.accountType===ADMIN ? null : req.session.user.userId;
 router.use(requireLogin);
+router.delete('/usuarios/:id',admin,responder(req=>require('../servicios/usuarios.service').deleteUser(Number(req.params.id),req.session.user.userId)));
 router.get('/reportes',admin,responder(()=>require('../servicios/reportes.service').obtenerReporte()));
 router.get('/inventario',responder(async req=>{
     const datos=await inventario.listarInventario();
