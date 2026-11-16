@@ -25,6 +25,8 @@ async function main() {
         for (const accountType of [undefined, null, 0, 4, "2", 1.5]) {
             assert.equal((await post("/api/register", { usuario, password, accountType })).status, 400);
         }
+        assert.equal((await post("/api/register", { usuario: usuario + "_2", password, accountType: 2 })).status, 403);
+        assert.equal((await post("/api/usuarios", { usuario: usuario + "_2", password, accountType: 2 })).status, 401);
         const attempts = await Promise.all([
             post("/api/register", { usuario, password, accountType: 3 }),
             post("/api/register", { usuario, password, accountType: 3 })
@@ -41,7 +43,7 @@ async function main() {
         assert.equal(login.body.usuario, usuario);
         assert.equal(login.body.password, undefined);
         assert.equal(login.body.tipoCuenta, 3);
-        for (const accountType of [1, 2]) {
+        for (const accountType of [1]) {
             const name = usuario + "_" + accountType;
             assert.equal((await post("/api/register", { usuario: name, password, accountType })).status, 201);
             const saved = (await pool.request().input("usuario", sql.VarChar(50), name)
@@ -55,7 +57,7 @@ async function main() {
         assert.equal((await post("/api/login", { usuario: "' OR 1=1 --", password, accountType: 3 })).status, 401);
         assert.equal((await post("/api/login", { usuario, password, accountType: 1 })).status, 401);
         assert.equal((await post("/api/login", { usuario, password, accountType: "3" })).status, 400);
-        console.log("OK: los tres tipos se guardan en SQL y se devuelven en login; valores inválidos, duplicados y contraseñas incorrectas se rechazan.");
+        console.log("OK: registro de vendedor y produccion; administrador publico rechazado; validaciones y login correctos.");
     } finally {
         try {
             const pool = await getConnection();

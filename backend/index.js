@@ -64,29 +64,16 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, "../frontend")));
 
 app.post("/api/register", async (req, res) => {
-        // El registro público solo funciona si todavía no hay ningún usuario.
-    try {
-        const pool = await getConnection();
-        const total = await pool.request().query("SELECT COUNT(*) AS total FROM dbo.users");
-        if (total.recordset[0].total > 0) {
-            return res.status(403).json({
-                mensaje: "El registro está cerrado. Pide a un administrador que cree tu cuenta."
-            });
-        }
-    } catch (error) {
-        console.error("Error al revisar usuarios:", error.message);
-        return res.status(500).json({ mensaje: "No se pudo procesar el registro." });
-    }
     const { usuario, password, accountType } = req.body ?? {};
-    if (![1, 2, 3].includes(accountType)) {
-        return res.status(400).json({ mensaje: "Selecciona un tipo de cuenta válido: Empleado (vendedor), Administrador o Encargado de producción." });
+    if (accountType === ADMIN) {
+        return res.status(403).json({ mensaje: "Solo un administrador puede crear cuentas de Administrador desde Usuarios." });
+    }
+    if (![1, 3].includes(accountType)) {
+        return res.status(400).json({ mensaje: "Selecciona Empleado (vendedor) o Encargado de producci\u00f3n." });
     }
     if (typeof usuario !== "string" || !usuario.trim() || usuario.trim().length > 50 ||
         typeof password !== "string" || password.length < 8 || password.length > 128) {
         return res.status(400).json({ mensaje: "Escribe un usuario de hasta 50 caracteres y una contraseña de 8 a 128 caracteres." });
-    }
-    if (accountType !== ADMIN) {
-        return res.status(400).json({ mensaje: "La primera cuenta debe ser Administrador." });
     }
     try {
         await registerUser(usuario.trim(), password, accountType);
