@@ -1,0 +1,154 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 28px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../img/fondo\ madera.png);
+    color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+.cardContent {
+    width: 100%;
+    max-width: 400px;
+    padding: 32px;
+    background: #272729;
+    border: 1px solid #3b3b3e;
+    border-radius: 12px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+.cardHeader {
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.brandMark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 16px;
+    border-radius: 12px;
+    background: #e51e26;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.title {
+    margin: 0 0 8px;
+    font-size: 22px;
+    line-height: 1.25;
+}
+
+.subtitle {
+    margin: 0;
+    color: #aaaab1;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.formsCard {
+    display: grid;
+    gap: 18px;
+}
+
+.formField {
+    display: grid;
+    gap: 7px;
+}
+
+label {
+    color: #d5d5da;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+input,
+.foldingMenu {
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding: 11px 12px;
+    border: 1px solid #48484e;
+    border-radius: 6px;
+    background: #19191c;
+    color: #f5f5f5;
+    color-scheme: dark;
+    font: inherit;
+    font-size: 14px;
+}
+
+input:focus-visible,
+.foldingMenu:focus-visible,
+button:focus-visible {
+    outline: 2px solid #ff666c;
+    outline-offset: 3px;
+}
+
+.buttonContainer {
+    display: grid;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+button {
+    width: 100%;
+    min-height: 42px;
+    padding: 11px 16px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 150ms ease;
+}
+
+.loginBox {
+    background: #e51e26;
+    color: #fff;
+}
+
+.loginBox:hover {
+    background: #c91820;
+}
+
+.register {
+    border-color: #505056;
+    background: transparent;
+    color: #dedee3;
+}
+
+.register:hover {
+    background: #353539;
+}
+
+.cardFooter {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #3b3b3e;
+    text-align: center;
+    color: #aaaab1;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.cardFooter p {
+    margin: 0;
+}
+
+@media (max-width: 400px) {
+    .cardContent {
+        padding: 24px 20px;
+    }
+}

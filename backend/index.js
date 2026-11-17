@@ -3,7 +3,7 @@ require("dotenv").config({ path: path.join(__dirname, ".env") });
 const express = require("express");
 const session = require("express-session");
 const { sql, getConnection } = require("./servicios/databaseLogin.service");
-const { registerUser } = require("./servicios/register.service");
+const { registerUser, necesitaConfiguracion } = require("./servicios/register.service");
 const { verifyPassword } = require("./servicios/password.service");
 const { requireLogin, requireRole, ADMIN, PRODUCCION, destinoRol, puedeAbrirPagina } = require("./middleware/auth");
 const { listUsers, getUserById, updateUser, setUserActive } = require("./servicios/usuarios.service");
@@ -63,6 +63,30 @@ app.use((req, res, next) => {
 // Publica los archivos del frontend.
 app.use(express.static(path.join(__dirname, "../frontend")));
 
+app.get("/", (req, res) => res.redirect("/pages/login.html"));
+app.get("/api/setup", async (req, res) => {
+    res.set("Cache-Control", "no-store");
+    try { res.json({ necesitaConfiguracion: await necesitaConfiguracion() }); }
+    catch (error) {
+        console.error("Error al consultar configuracion inicial:", error.message);
+        res.status(500).json({ mensaje: "No se pudo consultar la configuracion inicial. Revisa la conexion a la base de datos." });
+    }
+});
+app.post("/api/setup", async (req, res) => {
+    const { usuario, password } = req.body ?? {};
+    if (!usuarioValido(usuario) || !passwordValida(password)) {
+        return res.status(400).json({ mensaje: "Escribe un usuario de hasta 50 caracteres y una contrase\u00f1a de 8 a 128 caracteres." });
+    }
+    try {
+        await registerUser(usuario.trim(), password, ADMIN, "inicial");
+        res.status(201).json({ mensaje: "Administrador creado. Ya puedes iniciar sesi\u00f3n como Administrador." });
+    } catch (error) {
+        const conflicto = error.status === 409 || [2601, 2627].includes(error.number);
+        if (!conflicto) console.error("Error en configuracion inicial:", error.message);
+        res.status(conflicto ? 409 : 500).json({ mensaje: conflicto ? "La configuraci\u00f3n inicial ya fue completada. Inicia sesi\u00f3n." : "No se pudo crear el Administrador." });
+    }
+});
+
 app.post("/api/register", async (req, res) => {
     const { usuario, password, accountType } = req.body ?? {};
     if (accountType === ADMIN) {
@@ -76,10 +100,11 @@ app.post("/api/register", async (req, res) => {
         return res.status(400).json({ mensaje: "Escribe un usuario de hasta 50 caracteres y una contraseña de 8 a 128 caracteres." });
     }
     try {
-        await registerUser(usuario.trim(), password, accountType);
+        await registerUser(usuario.trim(), password, accountType, "publico");
         return res.status(201).json({ mensaje: "Usuario registrado. Ya puedes iniciar sesión." });
     } catch (error) {
         console.error("Error en registro:", error.message);
+        if (error.code === "SETUP_REQUIRED") return res.status(409).json({ mensaje: error.message });
         const duplicate = error.status === 409 || [2601, 2627].includes(error.number);
         return res.status(duplicate ? 409 : 500).json({
             mensaje: duplicate ? "Ese nombre de usuario ya está registrado." : "No se pudo registrar el usuario."

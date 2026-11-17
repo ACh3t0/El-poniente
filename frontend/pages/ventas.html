@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas | Carbón El Poniente</title>
+    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./operaciones.css">
+    <link rel="stylesheet" href="./ventas.css">
+</head>
+
+
+
+<body>
+    <nav class="sidebar">
+        <div class="marca"><strong>EL PONIENTE</strong><span>Sistema de Gesti&oacute;n</span></div>
+        <ul>
+            <li><a href="./main.html">Inicio</a></li>
+            <li><a href="./inventario.html">Inventario</a></li>
+            <li><a href="./usuarios.html">Usuarios</a></li>
+            <li><a href="./ventas.html" aria-current="page">Ventas</a></li>
+            <li><a href="./reportes.html">Reportes</a></li>
+        </ul>
+    </nav>
+    <main>
+        <header class="encabezado"><h1>M&oacute;dulo de Ventas y Consulta de Disponibilidad</h1><div id="sesion-cabecera" class="sesion-cabecera"></div></header>
+        <div class="contenido-ventas">
+
+        <section class="contenedor-venta">
+            <div class="panel-agregar">
+                <h2>Productos Disponibles para Venta</h2>
+                <div hidden><select id="select-producto"></select><input id="input-cantidad" type="number" min="1" step="1" value="1"><button id="btn-agregar" type="button">Agregar</button></div>
+                <div class="tabla-contenedor"><table><thead><tr><th>Producto</th><th>Disponible</th><th>Precio / unidad</th><th>Cantidad</th><th>Acci&oacute;n</th></tr></thead><tbody id="productos-disponibles"></tbody></table></div>
+            </div>
+
+            <div class="panel-orden">
+                <h2>Detalle de Venta en Curso (Mostrador)</h2>
+                <div class="tabla-contenedor"><table id="tabla-orden">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio Unitario</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-orden">
+                    </tbody>
+                </table></div>
+
+                <div class="resumen-cobro">
+                    <h4><span>TOTAL A COBRAR:</span><span>$<span id="total-venta">0.00</span> MXN</span></h4>
+                    
+                    <label for="select-pago">Método de Pago:</label>
+                    <select id="select-pago">
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Tarjeta">Tarjeta</option>
+                        <option value="Transferencia">Transferencia</option>
+                    </select>
+
+                    <button id="btn-cobrar" type="button">Confirmar y Registrar Venta</button>
+                </div>
+            </div>
+        </section>
+        <section class="panel-historial"><div class="historial-titulo"><h2>Historial de Operaciones Realizadas Hoy</h2><a href="./historial.html">Ver historial completo</a></div><p id="mensaje-historial" role="status" hidden></p><div class="tabla-contenedor"><table><thead><tr><th>Folio Venta</th><th>Fecha y Hora</th><th>Vendedor</th><th>Pago</th><th>Total Cobrado</th><th>Estado</th></tr></thead><tbody id="historial-turno"></tbody></table></div></section>
+        </div>
+    </main>
+
+    <script type="module" src="./ventas.js"></script>
+</body>
+</html>

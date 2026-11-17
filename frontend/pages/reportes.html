@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes | Carbón El Poniente</title>
+    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./operaciones.css">
+    <link rel="stylesheet" href="./reportes.css">
+    <script type="module" src="./reportes.js"></script>
+</head>
+<body>
+    <nav class="sidebar" aria-label="Menú principal">
+        <div class="marca"><strong>EL PONIENTE</strong><span>Sistema de Gesti&oacute;n</span></div>
+        <ul>
+            <li><a href="./main.html">Inicio</a></li>
+            <li><a href="./inventario.html">Inventario</a></li>
+            <li><a href="./usuarios.html">Usuarios</a></li>
+            <li><a href="./ventas.html">Ventas</a></li>
+            <li><a href="./reportes.html" aria-current="page">Reportes</a></li>
+        </ul>
+    </nav>
+    <main>
+        <header class="encabezado">
+            <h1>Reportes Generales para Toma de Decisiones</h1><div id="sesion-cabecera" class="sesion-cabecera"></div>
+        </header>
+        <div class="contenido-reportes">
+        <section class="encabezado-pdf" aria-label="Datos del reporte">
+            <strong class="marca-pdf">EL PONIENTE</strong>
+            <div><h2>Carbón El Poniente</h2><p>Reporte de ventas · Importes en MXN</p><p id="periodo-pdf"></p><p id="fecha-pdf"></p></div>
+        </section>
+        <form id="filtros" class="filtros">
+            <label>Desde<input id="desde" type="date"></label>
+            <label>Hasta<input id="hasta" type="date"></label>
+            <button id="aplicar" type="submit" disabled>Aplicar fechas</button>
+            <button id="actualizar" type="button">Actualizar</button>
+            <div class="exportar"><button id="exportar-pdf" type="button" disabled aria-describedby="pdf-nota">Imprimir / Exportar Reporte PDF</button><small id="pdf-nota">Elige Guardar como PDF en la ventana de impresi&oacute;n.</small></div>
+            <small>Sin fechas se muestra todo el historial.</small>
+        </form>
+        <p id="estado" role="status" aria-live="polite">Cargando ventas…</p>
+        <div id="resultados" hidden>
+            <section class="indicadores" aria-label="Resumen del período">
+                <article class="tarjeta destacado"><h2>Ingresos totales</h2><strong id="ingresos">—</strong><p>Total vendido, antes de descontar costos.</p></article>
+                <article class="tarjeta"><h2>Ventas realizadas</h2><strong id="cantidad-ventas">—</strong><p>Operaciones registradas en el período.</p></article>
+                <article class="tarjeta"><h2>Promedio por venta</h2><strong id="promedio">—</strong><p>Ingresos divididos entre el número de ventas.</p></article>
+            <article class="tarjeta"><h2>Costo de compras</h2><strong id="costo-compras"></strong><p>Materia prima adquirida en el período.</p></article><article class="tarjeta"><h2>Mermas de producción</h2><strong id="mermas"></strong><p>Cantidades agrupadas por unidad.</p></article></section>
+            <section class="tarjeta rendimiento"><h2>Rendimiento por Producto Terminado (Ventas y Mermas)</h2><div class="tabla-scroll"><table><thead><tr><th>Producto terminado</th><th>Cantidad producida</th><th>Merma asociada</th><th>Cantidad vendida</th><th>Ingreso generado</th></tr></thead><tbody id="rendimiento"></tbody></table></div></section>
+            <details class="analisis-adicional"><summary>Ver gr&aacute;ficos y detalle de ventas</summary>
+            <section class="graficos" aria-label="Gráficos de ventas">
+                <article class="tarjeta"><h2>Ingresos por día</h2><p>Importe vendido en cada día con actividad.</p><div id="barras" class="barras" aria-label="Ingresos diarios"></div></article>
+                <article class="tarjeta"><h2>Productos más vendidos</h2><label class="selector-unidad">Comparar cantidades en <select id="unidad" aria-label="Unidad de medida"></select></label><p id="lider"></p><div class="distribucion"><div id="pastel" class="pastel" role="img" aria-label="Sin productos vendidos"></div><ul id="leyenda" class="leyenda"></ul></div><small>Porcentaje de la cantidad vendida en la unidad seleccionada.</small></article>
+            </section>
+            <section class="tarjeta historial"><h2>Detalle de ventas</h2><p>Abre los productos de cada venta para consultar cantidades y precios.</p><div class="tabla-scroll"><table><caption class="sr-only">Ventas del período seleccionado</caption><thead><tr><th scope="col">Venta</th><th scope="col">Fecha y hora</th><th scope="col">Vendedor</th><th scope="col">Pago</th><th scope="col">Productos</th><th scope="col">Total</th></tr></thead><tbody id="historial"></tbody></table></div></section>
+            </details>
+        </div>
+        </div>
+    </main>
+</body>
+</html>

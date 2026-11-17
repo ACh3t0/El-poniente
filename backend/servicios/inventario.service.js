@@ -1,16 +1,23 @@
 const { sql, getConnection } = require("./databaseLogin.service");
 const { exigir, idValido, decimalValido } = require("./validacionComercial");
 
+const consultaProductos = `SELECT i.*, CAST(CASE WHEN i.existencia <> 0
+    OR EXISTS (SELECT 1 FROM dbo.detalleVenta d WHERE d.productoId=i.productoId)
+    OR EXISTS (SELECT 1 FROM dbo.compras c WHERE c.productoId=i.productoId)
+    OR EXISTS (SELECT 1 FROM dbo.produccion p WHERE p.materiaPrimaId=i.productoId OR p.productoId=i.productoId)
+    THEN 0 ELSE 1 END AS bit) AS permiteCambiarUnidadTipo
+    FROM dbo.inventario i`;
+
 async function listarInventario() {
     const pool = await getConnection();
-    return (await pool.request().query("SELECT * FROM dbo.inventario ORDER BY nombre, productoId")).recordset.map(p => ({ ...p, productoId: Number(p.productoId) }));
+    return (await pool.request().query(`${consultaProductos} ORDER BY i.nombre, i.productoId`)).recordset.map(p => ({ ...p, productoId: Number(p.productoId) }));
 }
 
 async function obtenerProducto(productoId) {
     exigir(idValido(productoId), "Producto no válido.");
     const pool = await getConnection();
     const resultado = await pool.request().input("productoId", sql.Int, productoId)
-        .query("SELECT * FROM dbo.inventario WHERE productoId = @productoId");
+        .query(`${consultaProductos} WHERE i.productoId = @productoId`);
     exigir(resultado.recordset.length, "Producto no encontrado.", 404);
     return { ...resultado.recordset[0], productoId: Number(resultado.recordset[0].productoId) };
 }
@@ -32,7 +39,7 @@ async function guardarProducto(datos, productoId = null) {
     exigir(typeof isActive === "boolean", "El estado debe ser verdadero o falso.");
     exigir(productoId === null || idValido(productoId), "Producto no válido.");
     const pool = await getConnection();
-    const peticion = pool.request()
+    const prepararPeticion = conexion => conexion.request()
         .input("nombre", sql.NVarChar(100), nombre.trim())
         .input("descripcion", sql.NVarChar(255), descripcion)
         .input("unidad", sql.NVarChar(20), unidad.trim())
@@ -43,19 +50,34 @@ async function guardarProducto(datos, productoId = null) {
         .input("isActive", sql.Bit, isActive);
     let resultado;
     if (productoId === null) {
-        resultado = await peticion.query(`
+        resultado = await prepararPeticion(pool).query(`
             INSERT INTO dbo.inventario (nombre, descripcion, unidad, existencia, stockMinimo, precioVenta, tipo, isActive)
             OUTPUT INSERTED.*
             VALUES (@nombre, @descripcion, @unidad, @existencia, @stockMinimo, @precioVenta, @tipo, @isActive)
         `);
     } else {
-        resultado = await peticion.input("productoId", sql.Int, productoId).query(`
+        const tx = new sql.Transaction(pool);
+        await tx.begin(sql.ISOLATION_LEVEL.SERIALIZABLE);
+        try {
+            const consulta = await tx.request().input("productoId", sql.Int, productoId)
+                .query(`${consultaProductos.replace('FROM dbo.inventario i', 'FROM dbo.inventario i WITH (UPDLOCK, HOLDLOCK)')} WHERE i.productoId=@productoId`);
+            exigir(consulta.recordset.length, "Producto no encontrado.", 404);
+            const actual = consulta.recordset[0];
+            const cambiaUnidadTipo = actual.unidad !== unidad.trim() || actual.tipo !== tipo;
+            exigir(!cambiaUnidadTipo || actual.permiteCambiarUnidadTipo,
+                "No puedes cambiar la unidad ni el tipo de un producto con existencias o movimientos registrados. Crea un producto nuevo con la unidad correcta y desactiva el anterior cuando corresponda.", 409);
+            resultado = await prepararPeticion(tx).input("productoId", sql.Int, productoId).query(`
             UPDATE dbo.inventario
             SET nombre=@nombre, descripcion=@descripcion, unidad=@unidad,
                 stockMinimo=@stockMinimo, precioVenta=@precioVenta, tipo=@tipo, isActive=@isActive
             OUTPUT INSERTED.* WHERE productoId=@productoId
         `);
-        exigir(resultado.recordset.length, "Producto no encontrado.", 404);
+            exigir(resultado.recordset.length, "Producto no encontrado.", 404);
+            await tx.commit();
+        } catch (error) {
+            await tx.rollback().catch(() => {});
+            throw error;
+        }
     }
     return { ...resultado.recordset[0], productoId: Number(resultado.recordset[0].productoId) };
 }

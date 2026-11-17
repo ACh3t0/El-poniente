@@ -1,0 +1,58 @@
+﻿/* Comparte la apariencia del login; aquí se ajusta únicamente el registro. */
+body {
+    background-color: #141416;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.cardContent {
+    position: relative;
+}
+
+.return {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    color: #d5d5da;
+    font-size: 26px;
+    text-decoration: none;
+}
+
+.return:hover {
+    background: #353539;
+    color: #fff;
+}
+
+.return:focus-visible {
+    outline: 2px solid #ff666c;
+    outline-offset: 3px;
+}
+
+.textPassword {
+    margin: 0;
+    color: #aaaab1;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.register.loginBox {
+    border-color: transparent;
+    background: #e51e26;
+    color: #fff;
+}
+
+.register.loginBox:hover {
+    background: #c91820;
+}
+
+.register:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}

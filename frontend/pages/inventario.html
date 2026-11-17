@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario | Carbón El Poniente</title>
+    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./operaciones.css">
+    <link rel="stylesheet" href="./inventario.css">
+</head>
+
+<body>
+    <nav class="sidebar">
+        <div class="marca"><strong>EL PONIENTE</strong><span>Sistema de Gesti&oacute;n</span></div>
+        <ul>
+            <li><a href="./main.html">Inicio</a></li>
+            <li><a href="./inventario.html" aria-current="page">Inventario</a></li>
+            <li><a href="./usuarios.html">Usuarios</a></li>
+            <li><a href="./ventas.html">Ventas</a></li>
+            <li><a href="./reportes.html">Reportes</a></li>
+        </ul>
+    </nav>
+    <main>
+        <header class="encabezado">
+            <h1>Control de Inventario y Existencias Disponibles</h1>
+            <div id="sesion-cabecera" class="sesion-cabecera"></div>
+        </header>
+
+        <div class="contenido-inventario">
+        <p id="mensaje" role="status" aria-live="polite" hidden></p>
+        <p id="ayuda-inventario"></p>
+
+        <div class="filtros-inventario">
+            <input id="buscar" type="search" aria-label="Buscar producto o c&oacute;digo" placeholder="Buscar producto, insumo o c&oacute;digo...">
+            <select id="filtro-tipo" aria-label="Filtrar por categor&iacute;a"><option value="">Todas las categor&iacute;as</option><option>Materia prima</option><option value="Terminado">Producto terminado</option></select>
+            <a id="nuevo-producto" class="boton-nuevo" href="./productos.html">+ Nuevo Producto</a>
+        </div>
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>C&oacute;digo</th>
+                        <th>Producto / Insumo</th>
+                        <th>Tipo de inventario</th>
+                        <th>Precio por unidad</th>
+                        <th>Existencia actual</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-inventario"></tbody>
+            </table>
+        </div>
+        </div>
+    </main>
+
+    <script type="module" src="./inventario.js"></script>
+</body>
+</html>

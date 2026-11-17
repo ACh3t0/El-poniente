@@ -1,0 +1,24 @@
+﻿.contenido-ventas { padding: 24px 28px; }
+.contenedor-venta { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; align-items: stretch; }
+.panel-agregar, .panel-orden, .panel-historial { min-width: 0; background: #27272a; border: 1px solid #363639; border-radius: 7px; padding: 20px; }
+.panel-historial { margin-top: 16px; }
+h2 { font-size: 14px; margin: 0 0 16px; }
+th, td { font-size: 12px; padding: 12px 8px; border-bottom: 1px solid #3f3f46; vertical-align: middle; }
+th { font-size: 11px; color: #b7b7bf; background: #18181b; }
+.tabla-contenedor { border: 0; border-radius: 0; }
+input, select { min-height: 32px; border: 1px solid #48484f; border-radius: 4px; padding: 7px 8px; background: #18181b; color: #e4e4e7; font: inherit; font-size: 12px; }
+.cantidad-producto { width: 75px; }
+.btn-agregar-fila { background: #16a34a; color: #fff; border-color: #15803d; white-space: nowrap; }
+.btn-agregar-fila:hover { background: #15803d; }
+.sin-stock { color: #a1a1aa; }
+.resumen-cobro { margin-top: 16px; display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; }
+.resumen-cobro h4 { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 12px; background: #18181b; color: #4ade80; padding: 16px 12px; border-radius: 5px; margin: 0 0 4px; font-size: 17px; }
+.resumen-cobro label { font-size: 12px; color: #a1a1aa; }
+#btn-cobrar { grid-column: 1 / -1; width: 100%; padding: 12px; background: #dc2626; border-color: #dc2626; color: #fff; font-weight: 700; }
+#btn-cobrar:hover { background: #b91c1c; }
+.historial-titulo { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.historial-titulo a { font-size: 12px; color: #a1a1aa; }
+#mensaje-historial { color: #fca5a5; font-size: 12px; }
+.sesion-cabecera[data-rol="1"] .rol { background: #16a34a; }
+@media(max-width:1100px) { .contenedor-venta { grid-template-columns: 1fr; } }
+@media(max-width:650px) { .contenido-ventas { padding: 20px 16px; } .panel-agregar, .panel-orden, .panel-historial { padding: 14px; } .historial-titulo { flex-wrap: wrap; margin-bottom: 12px; } }

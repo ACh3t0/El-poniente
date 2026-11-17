@@ -1,0 +1,28 @@
+﻿.contenido-inventario { padding: 24px 28px; }
+#mensaje { margin: 0 0 18px; }
+#ayuda-inventario { font-size: 12px; color: #a1a1aa; margin: 0 0 18px; line-height: 1.6; }
+.filtros-inventario { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.filtros-inventario input, .filtros-inventario select, .acciones-stock input { min-width: 0; padding: 10px 12px; border: 1px solid #48484f; border-radius: 5px; background: #27272a; color: #e4e4e7; font: inherit; font-size: 12px; min-height: 38px; }
+.filtros-inventario input { flex: 1; }
+.filtros-inventario select { background: #3f3f46; }
+.boton-nuevo { display: inline-flex; justify-content: center; align-items: center; min-height: 38px; padding: 10px 18px; border-radius: 5px; background: #dc2626; color: #fff; text-decoration: none; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.boton-nuevo:hover { background: #b91c1c; }
+.contenido-inventario > .tabla-contenedor { padding: 18px; background: #27272a; border: 1px solid #363639; border-radius: 7px; }
+th { background: #18181b; font-size: 12px; color: #b7b7bf; }
+th, td { padding: 16px 12px; border-bottom: 1px solid #3f3f46; vertical-align: middle; }
+td { font-size: 12px; }
+.etiqueta-tipo { display: inline-block; padding: 5px 8px; border-radius: 4px; background: #15803d; color: #fff; font-size: 11px; line-height: 1.4; }
+.etiqueta-tipo.materia { background: #2563eb; }
+.acciones-stock { display: flex; gap: 6px; margin-top: 8px; align-items: center; }
+.acciones-stock input { width: 80px; min-height: 30px; padding: 6px; background: #18181b; }
+.acciones-stock button, .editar-producto { padding: 6px 9px; font-size: 11px; }
+.editar-producto { display: inline-block; background: #3f3f46; border-radius: 4px; color: #e4e4e7; text-decoration: none; }
+.estado-bajo { color: #fbbf24; }
+.estado-disponible { color: #86efac; }
+tr.inactivo td { color: #a1a1aa; }
+input:focus-visible, select:focus-visible { outline: 2px solid #ef4444; outline-offset: 2px; }
+@media(max-width:800px) { .filtros-inventario { flex-wrap: wrap; } .filtros-inventario input { flex-basis: 100%; } }
+@media(max-width:650px) { .contenido-inventario { padding: 20px 16px; } .filtros-inventario select { flex: 1; } .contenido-inventario > .tabla-contenedor { padding: 10px; } }
+.boton-nuevo[hidden] { display: none; }
+.eliminar-producto { margin-left: 6px; padding: 6px 9px; font-size: 11px; background: #991b1b; border-color: #b91c1c; color: #fff; }
+.eliminar-producto:hover { background: #b91c1c; }

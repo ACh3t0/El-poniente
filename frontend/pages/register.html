@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar usuario | Carbón El Poniente</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="register.css">
+    <script type="module" src="./register.js"></script>
+</head>
+<body>
+    <main class="cardContent" aria-labelledby="register-title">
+        <a class="return" href="./login.html" aria-label="Volver al inicio de sesión">&times;</a>
+        <header class="cardHeader">
+            <div class="brandMark" aria-hidden="true">EP</div>
+            <h1 class="title" id="register-title">Registrar usuario</h1>
+            <p class="subtitle">Carbón El Poniente</p>
+        </header>
+
+        <form id="registerForm">
+            <div class="formsCard">
+                <div class="formField">
+                    <label class="userName" for="usuario">Nombre de usuario</label>
+                    <input type="text" id="usuario" name="usuario" maxlength="50" autocomplete="username" required>
+                </div>
+                <div class="formField">
+                    <label class="password" for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" minlength="8" maxlength="128" autocomplete="new-password" aria-describedby="password-help" required>
+                    <p class="textPassword" id="password-help">Usa una contraseña de 8 a 128 caracteres.</p>
+                </div>
+                <div class="formField">
+                    <label class="accountType" for="accountType">Tipo de cuenta</label>
+                    <select class="foldingMenu" id="accountType" name="accountType" required>
+                        <option value="1">Empleado (vendedor)</option>
+
+                        <option value="3">Encargado de producción</option>
+                    </select>
+                </div>
+            </div>
+            <div class="buttonContainer">
+                <button type="submit" form="registerForm" class="register loginBox">Registrar</button>
+            </div>
+        </form>
+
+        <footer class="cardFooter">
+            <p>Acceso exclusivo para personal autorizado.</p>
+            <p>Versión 1.0</p>
+        </footer>
+    </main>
+</body>
+</html>

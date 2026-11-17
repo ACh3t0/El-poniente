@@ -1,0 +1,22 @@
+﻿.encabezado h1 { font-size: 18px; }
+#formulario { display: grid; grid-template-columns: minmax(150px,1fr) minmax(150px,1fr) minmax(180px,1fr) auto; gap: 8px 16px; align-items: end; }
+#titulo-dialogo { grid-column: 1 / -1; margin-bottom: 12px; }
+#formulario label { color: #a1a1aa; font-size: 12px; }
+#formulario input, #formulario select { min-width: 0; width: 100%; padding: 10px 12px; min-height: 38px; background: #18181b; color: #e4e4e7; border: 1px solid #48484f; border-radius: 5px; font: inherit; font-size: 13px; }
+label[for="usuario"] { grid-column: 1; grid-row: 2; } #usuario { grid-column: 1; grid-row: 3; }
+label[for="password"] { grid-column: 2; grid-row: 2; } #password { grid-column: 2; grid-row: 3; }
+label[for="tipo"] { grid-column: 3; grid-row: 2; } #tipo { grid-column: 3; grid-row: 3; }
+.botones-form { grid-column: 4; grid-row: 3; display: flex; flex-wrap: wrap; gap: 8px; }
+.botones-form button { min-height: 38px; }
+#ayuda-password { grid-column: 1 / -1; color: #a1a1aa; font-size: 11px; line-height: 1.5; }
+#error-form { grid-column: 1 / -1; margin: 0; color: #fca5a5; font-size: 12px; }
+#error-form:empty { display: none; }
+.directorio-titulo { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.directorio-titulo h2 { margin: 0; }
+td button + button { margin-left: 6px; }
+tr.inactivo { color: #a1a1aa; }
+.estado-activo { color: #86efac; } .estado-inactivo { color: #a1a1aa; }
+input:focus-visible, select:focus-visible { outline: 2px solid #ef4444; outline-offset: 2px; }
+[hidden] { display: none !important; }
+@media(max-width:1100px) { #formulario { grid-template-columns: 1fr 1fr; } label[for="tipo"] { grid-column: 1; grid-row: 4; } #tipo { grid-column: 1; grid-row: 5; } .botones-form { grid-column: 2; grid-row: 5; } }
+@media(max-width:650px) { #formulario { display: flex; flex-direction: column; align-items: stretch; gap: 10px; } #formulario label { margin-top: 8px; } #formulario label[for="tipo"] { order: 0; } .botones-form { margin-top: 8px; } }

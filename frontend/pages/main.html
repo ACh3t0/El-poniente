@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio | Carbón El Poniente</title>
+    <link rel="stylesheet" href="./main.css">
+</head>
+
+<body>
+    <nav class="sidebar">
+        <div class="marca"><strong>EL PONIENTE</strong><span>Sistema de Gestión</span></div>
+        <ul>
+            <li><a href="./main.html">Inicio</a></li>
+            <li><a href="./inventario.html">Inventario</a></li>
+            <li><a href="./usuarios.html">Usuarios</a></li>
+            <li><a href="./ventas.html">Ventas</a></li>
+            <li><a href="./reportes.html">Reportes</a></li>
+        </ul>
+    </nav>
+    <main>
+        <header class="encabezado">
+            <h1>Panel de Control General</h1>
+            <div id="sesion-cabecera" class="sesion-cabecera"></div>
+        </header>
+        <div class="contenido-dashboard">
+        <section id="resumen-operativo" class="resumen-operativo" aria-label="Resumen del negocio"></section>
+        <section class="accesos" aria-labelledby="titulo-accesos">
+            <h2 id="titulo-accesos">Accesos Rápidos del Sistema</h2>
+            <div class="accesos-grid">
+                <a href="./compras.html"><h3>Compras de Materia Prima</h3><p>Registrar entradas de materia prima e insumos de proveedores.</p></a>
+                <a href="./produccion.html"><h3>Control de Producción</h3><p>Transformación de materia prima y registro de mermas.</p></a>
+                <a href="./ventas.html"><h3>Módulo de Ventas</h3><p>Consulta de disponibilidad, registro de ventas e historial de caja.</p></a>
+                <a href="./inventario.html"><h3>Inventario de Existencias</h3><p>Monitoreo de stock de materia prima y producto terminado.</p></a>
+                <a href="./reportes.html"><h3>Reportes y Estadísticas</h3><p>Métricas de ingresos, costos de compra y mermas para tomar decisiones.</p></a>
+                <a href="./usuarios.html"><h3>Administración de Personal</h3><p>Control de usuarios para administración, producción y ventas.</p></a>
+            </div>
+        </section>
+        <div class="pedidos-cabecera"><h2>Seguimiento de pedidos</h2><button id="actualizar-pedidos" type="button">Actualizar</button></div>
+        <p id="mensaje-pedidos" role="status" aria-live="polite">Cargando pedidos...</p>
+
+        <section class="seccion-pedidos" aria-labelledby="titulo-activos">
+            <h2 id="titulo-activos">Pedidos activos</h2>
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pedido</th>
+                            <th>Fecha</th>
+                            <th>Registró</th>
+                            <th>Productos</th>
+                            <th>Total</th>
+                            <th>Pago</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pedidos-activos"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="seccion-pedidos" aria-labelledby="titulo-completados">
+            <h2 id="titulo-completados">Pedidos completados</h2>
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pedido</th>
+                            <th>Fecha</th>
+                            <th>Registró</th>
+                            <th>Productos</th>
+                            <th>Total</th>
+                            <th>Pago</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pedidos-completados"></tbody>
+                </table>
+            </div>
+        </section>
+        </div>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+</body>
+</html>
